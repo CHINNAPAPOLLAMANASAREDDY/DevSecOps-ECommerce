@@ -1,0 +1,36 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: devshop-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: ecommerce
+      MYSQL_PASSWORD: ecommerce123
+      MYSQL_ROOT_PASSWORD: root123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "ecommerce", "-pecommerce123"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  ecommerce:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devshop-ecommerce
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/ecommerce
+      DB_USERNAME: ecommerce
+      DB_PASSWORD: ecommerce123
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:

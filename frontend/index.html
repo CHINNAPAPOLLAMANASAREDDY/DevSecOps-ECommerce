@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevShop - DevSecOps E-Commerce</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="header">
+  <div class="brand">DevShop</div>
+  <nav>
+    <a href="#products">Products</a>
+    <button id="cartButton" class="cart-btn">Cart (<span id="cartCount">0</span>)</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <p class="tag">DEVSECOPS E-COMMERCE</p>
+  <h1>Simple shopping.<br><span>Automated delivery.</span></h1>
+  <p>A demo e-commerce application built to demonstrate CI/CD, containers, security scanning and deployment.</p>
+  <a class="primary-btn" href="#products">Shop Products</a>
+</section>
+
+<main id="products" class="container">
+  <div class="section-title">
+    <div><p class="tag">CATALOG</p><h2>Featured Products</h2></div>
+    <span id="status">Loading...</span>
+  </div>
+  <div id="productGrid" class="grid"></div>
+</main>
+
+<div id="cartModal" class="modal hidden">
+  <div class="modal-card">
+    <button id="closeCart" class="close">×</button>
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total">Total: ₹<span id="cartTotal">0</span></div>
+    <button id="checkoutButton" class="primary-btn full">Place Demo Order</button>
+    <p id="orderMessage"></p>
+  </div>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>

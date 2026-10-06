@@ -1,0 +1,18 @@
+# Java / Maven
+backend/target/
+*.class
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Docker
+mysql_data/

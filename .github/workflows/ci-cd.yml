@@ -1,0 +1,50 @@
+name: DevSecOps CI/CD
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Run Spring Boot tests
+        working-directory: backend
+        run: mvn -B test
+
+  docker-security:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t devsecops-ecommerce:${{ github.sha }} .
+
+      - name: Install Trivy
+        uses: aquasecurity/setup-trivy@v0.2.3
+
+      - name: Trivy filesystem scan
+        run: trivy fs --severity HIGH,CRITICAL --exit-code 0 .
+
+      - name: Trivy Docker image scan
+        run: trivy image --severity HIGH,CRITICAL --exit-code 0 devsecops-ecommerce:${{ github.sha }}
+
+      # To publish to Docker Hub, add a separate deployment job with
+      # DOCKERHUB_USERNAME and DOCKERHUB_TOKEN repository secrets.

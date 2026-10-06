@@ -1,0 +1,11 @@
+.git
+.github
+docs
+backend/target
+backend/.mvn
+frontend
+kubernetes
+postman
+security
+README.md
+*.zip
